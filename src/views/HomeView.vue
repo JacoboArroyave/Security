@@ -1,12 +1,15 @@
 <template>
-  <div>
-    <h1>Bienvenido a SECURITY</h1>
-    <p>Este es el inicio</p>
-  </div>
+  <DefaultLayout>
+    <h1>Dashboard</h1>
+    <p>Bienvenido al sistema de seguridad.</p>
+  </DefaultLayout>
 </template>
 
 <script lang="ts">
+import DefaultLayout from '../layout/DefaultLayout.vue'
+
 export default {
-  name: 'HomeView'
+  name: 'HomeView',
+  components: { DefaultLayout }
 }
 </script>

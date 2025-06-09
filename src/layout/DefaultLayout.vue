@@ -11,7 +11,7 @@
         <div class="content-wrapper">
           <slot />
         </div>
-      </main>
+      </main> 
     </div>
     <div class="mobile-overlay" :class="{ 'active': !sidebarCollapsed }" @click="closeSidebar"></div>
   </div>

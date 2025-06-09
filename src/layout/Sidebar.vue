@@ -39,7 +39,7 @@
 
           <li class="nav-item">
             <router-link 
-              to="/address" 
+              to="/addresses" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Direcciones' : ''"

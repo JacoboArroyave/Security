@@ -1,7 +1,7 @@
 <template>
   <DefaultLayout>
-    <h1>Dashboard</h1>
-    <p>Bienvenido al sistema de seguridad.</p>
+
+    <router-view />
   </DefaultLayout>
 </template>
 

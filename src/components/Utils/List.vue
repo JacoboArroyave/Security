@@ -20,10 +20,11 @@
                         <tr v-for="item in items" :key="item.id" class="list-tr">
                             <td v-for="field in fields" :key="field" class="list-td">{{ item[field] }}</td>
                             <td class="list-td list-actions">
-                                <template v-for="(action, idx) in actions" :key="idx">
+                                <template v-for="(action) in actions" :key="action.id">
                                     <component
                                         :is="action.component"
                                         v-bind="action.getProps(item)"
+                                        class="action-btn"
                                     >
                                         <template v-if="action.slot" #default>
                                             {{ action.slot(item) }}
@@ -122,9 +123,34 @@ defineProps<{
     background: #f9fafb;
     transition: background 0.2s;
 }
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+}
+.action-btn:hover {
+    background: #e0e7ef;
+    color: #2563eb;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+}
+.action-btn.router-link-active {
+    color: #2563eb;
+    text-decoration: underline;
+}
 .list-actions {
     display: flex;
-    gap: 16px;
+    gap: 8px;
     align-items: center;
+}
+.list-td {
+    vertical-align: middle;
 }
 </style>

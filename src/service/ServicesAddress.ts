@@ -15,6 +15,9 @@ class AddressService {
     }
 
     async createAddress(userId: string, address: Address) {
+        console.log("Creating address for user:", userId, "with data:", address,`${API_URL}/user/${userId}`, address);
+        // Ensure the userId is included in the address object if required by your API
+        
         const response = await axios.post<Address>(`${API_URL}/user/${userId}`, address);
         return response;
     }

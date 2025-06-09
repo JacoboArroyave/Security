@@ -11,6 +11,11 @@ const routes = [
         path: 'addresses',
         name: 'AddressList',
         component: () => import('../views/Address/AddressList.vue')
+      },
+      {
+        path: 'addresses-create',
+        name: 'AddressCreate',
+        component: () => import('../views/Address/AddresCreateForm.vue')
       }
     ]
 

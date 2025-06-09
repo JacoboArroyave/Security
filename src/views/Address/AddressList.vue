@@ -4,7 +4,7 @@
     :headers="['Calle', 'Número', 'Latitud', 'Longitud']"
     :fields="['street', 'number', 'latitude', 'longitude']"
     :items="addresses"
-    :createLink="'/addresses/create'"
+    :createLink="'addresses-create'"
     :createLabel="'Crear Dirección'"
     :actions="actions"
   />

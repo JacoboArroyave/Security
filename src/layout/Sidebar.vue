@@ -10,15 +10,15 @@
           </svg>
         </div>
         <div class="logo-text" v-show="!collapsed">
-          <h1>SECURITY</h1>
-          <span>Panel Admin</span>
+          <h1>SecureAccess</h1>
+          <span>Gestión de usuarios</span>
         </div>
       </div>
     </div>
 
     <nav class="navigation">
       <div class="nav-section">
-        <h3 class="section-title" v-show="!collapsed">Principal</h3>
+        <h3 class="section-title" v-show="!collapsed">Panel de Opciones</h3>
         <ul class="nav-list">
           <li class="nav-item">
             <router-link 
@@ -36,28 +36,43 @@
               <span class="nav-text" v-show="!collapsed">Inicio</span>
             </router-link>
           </li>
-          
+
           <li class="nav-item">
             <router-link 
-              to="/usuarios" 
+              to="/address" 
               active-class="active"
               class="nav-link"
-              :title="collapsed ? 'Usuarios' : ''"
+              :title="collapsed ? 'Direcciones' : ''"
             >
               <div class="nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
                 </svg>
               </div>
-              <span class="nav-text" v-show="!collapsed">Usuarios</span>
-              <div class="nav-badge" v-show="!collapsed">12</div>
+              <span class="nav-text" v-show="!collapsed">Direcciones</span>
             </router-link>
           </li>
 
           <li class="nav-item">
             <router-link 
-              to="/dispositivos" 
+              to="/answer" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Respuestas' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Respuestas</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/device" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Dispositivos' : ''"
@@ -69,34 +84,46 @@
                 </svg>
               </div>
               <span class="nav-text" v-show="!collapsed">Dispositivos</span>
-              <div class="nav-badge success" v-show="!collapsed">8</div>
             </router-link>
           </li>
-        </ul>
-      </div>
 
-      <div class="nav-section">
-        <h3 class="section-title" v-show="!collapsed">Seguridad</h3>
-        <ul class="nav-list">
           <li class="nav-item">
             <router-link 
-              to="/roles" 
+              to="/digital-signature" 
               active-class="active"
               class="nav-link"
-              :title="collapsed ? 'Roles' : ''"
+              :title="collapsed ? 'Firma Digital' : ''"
             >
               <div class="nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                 </svg>
               </div>
-              <span class="nav-text" v-show="!collapsed">Roles</span>
+              <span class="nav-text" v-show="!collapsed">Firma Digital</span>
             </router-link>
           </li>
 
           <li class="nav-item">
             <router-link 
-              to="/permisos" 
+              to="/password" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Contraseñas' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <circle cx="12" cy="16" r="1"></circle>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Contraseñas</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/permission" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Permisos' : ''"
@@ -113,22 +140,124 @@
 
           <li class="nav-item">
             <router-link 
-              to="/bitacora" 
+              to="/profile" 
               active-class="active"
               class="nav-link"
-              :title="collapsed ? 'Bitácora' : ''"
+              :title="collapsed ? 'Perfiles' : ''"
             >
               <div class="nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14,2 14,8 20,8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10,9 9,9 8,9"></polyline>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
                 </svg>
               </div>
-              <span class="nav-text" v-show="!collapsed">Bitácora</span>
-              <div class="nav-indicator" v-show="!collapsed"></div>
+              <span class="nav-text" v-show="!collapsed">Perfiles</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/role" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Roles' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Roles</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/role-permission" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Roles y Permisos' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Roles y Permisos</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/security-question" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Preguntas de Seguridad' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Preguntas de Seguridad</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/session" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Sesiones' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 12l2 2 4-4"></path>
+                  <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h9l4-4"></path>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Sesiones</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/user" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Usuarios' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <path d="M20 8v6M23 11h-6"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Usuarios</span>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link 
+              to="/user-role" 
+              active-class="active"
+              class="nav-link"
+              :title="collapsed ? 'Usuarios y Roles' : ''"
+            >
+              <div class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span class="nav-text" v-show="!collapsed">Roles de Usuarios</span>
             </router-link>
           </li>
         </ul>
@@ -136,14 +265,6 @@
     </nav>
 
     <div class="sidebar-footer">
-      <div class="user-status" v-show="!collapsed">
-        <div class="status-indicator online"></div>
-        <div class="status-text">
-          <span>Sistema Activo</span>
-          <small>Última sync: Hace 2 min</small>
-        </div>
-      </div>
-      
       <button 
         class="collapse-btn"
         @click="$emit('toggle-sidebar')"
@@ -306,92 +427,10 @@ export default {
   overflow: hidden;
 }
 
-.nav-badge {
-  background: #ef4444;
-  color: white;
-  font-size: 0.625rem;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 10px;
-  min-width: 18px;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.nav-badge.success {
-  background: #10b981;
-}
-
-.nav-indicator {
-  width: 8px;
-  height: 8px;
-  background: #f59e0b;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 .sidebar-footer {
   padding: 1.5rem;
   border-top: 1px solid rgba(148, 163, 184, 0.2);
   background: rgba(15, 23, 42, 0.3);
-}
-
-.user-status {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1rem;
-  padding: 12px;
-  background: rgba(148, 163, 184, 0.05);
-  border-radius: 8px;
-}
-
-.status-indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.status-indicator.online {
-  background: #10b981;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
-  animation: pulse-status 2s infinite;
-}
-
-@keyframes pulse-status {
-  0%, 100% {
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-  }
-}
-
-.status-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.status-text span {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #e2e8f0;
-}
-
-.status-text small {
-  font-size: 0.75rem;
-  color: #94a3b8;
 }
 
 .collapse-btn {

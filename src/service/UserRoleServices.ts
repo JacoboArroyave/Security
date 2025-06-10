@@ -14,12 +14,14 @@ class UserRoleService {
         return response;
     }
 
-    async createUserRole(userId: string, roleId: string, userRole: UserRole) {
+    async createUserRole(userId: string, roleId: string, userRole: any) {
+        console.log("Creating user role for user:", userId, "with role:", roleId, "and data:", userRole);
+        
         const response = await axios.post<UserRole>(`${API_URL}/user/${userId}/role/${roleId}`, userRole);
         return response;
     }
 
-    async updateUserRole(id: string, userRole: UserRole) {
+    async updateUserRole(id: string, userRole: any) {
         const response = await axios.put<UserRole>(`${API_URL}/${id}`, userRole);
         return response;
     }

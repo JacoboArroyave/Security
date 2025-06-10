@@ -15,19 +15,22 @@ import AnswerService from '../../service/AnswerService';
 import type { Answer } from '../../models/Answer';
 
 const initialAnswer = {
-  response: '',
+  content: '',
   user_id: '',
   security_question_id: ''
 };
 
 const fields = [
-  { key: 'response', label: 'Respuesta', type: 'text' },
+  { key: 'content', label: 'Respuesta', type: 'text' },
   { key: 'user_id', label: 'ID de Usuario', type: 'number' },
   { key: 'security_question_id', label: 'ID de Pregunta de Seguridad', type: 'number' }
 ];
 
 const answerService = {
-  create: (answer: Answer) => AnswerService.createAnswer(answer),
+  create: (answer: Answer) => {
+    // Solo enviar el content en el body, user_id y security_question_id como argumentos
+    return AnswerService.createAnswer(answer.user_id, answer.security_question_id, { content: answer.content });
+  },
   get: (id: number | string) => AnswerService.getAnswer(Number(id)),
   update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(Number(id), answer)
 };

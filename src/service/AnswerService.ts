@@ -14,13 +14,13 @@ class AnswerService {
         return response;
     }
 
-    async createAnswer(answer: Answer) {
-        const response = await axios.post<Answer>(API_URL, answer);
+    async createAnswer(user_id:string,question_id:string, answer: Answer) {
+        const response = await axios.post<Answer>(`${API_URL}/user/${user_id}/question/${question_id}`, answer);
         return response;
     }
 
-    async updateAnswer(id: number, answer: Answer) {
-        const response = await axios.put<Answer>(`${API_URL}/${id}`, answer);
+    async updateAnswer( answer: Answer) {
+        const response = await axios.put<Answer>(`${API_URL}/user/${answer.user_id}/question/${answer.security_question_id}`, answer);
         return response;
     }
 

@@ -15,6 +15,10 @@ import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
 import GoogleLogin from 'vue3-google-login'
+import 'leaflet/dist/leaflet.css';
+import * as L from 'leaflet';
+
+
 
 const app = createApp(App)
 const pinia = createPinia()

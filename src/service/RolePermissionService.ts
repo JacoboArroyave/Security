@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { RolePermission } from '../models/RolePermission';
 
-const API_URL = import.meta.env.VITE_API_URL + "/role-permissions"; // DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "api/role-permissions"; // DEPRONTO CAMBIAR ENDOPOINT
 
 class RolePermissionService {
     async getRolePermissions() {
@@ -14,10 +14,23 @@ class RolePermissionService {
         return response;
     }
 
-    async createRolePermission(data: RolePermission) {
-        const response = await axios.post<RolePermission>(API_URL, data);
-        return response;
+async createRolePermission(role_id: number, permission_id: number) {
+  console.log("Creating role permission with role:", role_id, "and permission:", permission_id);
+  const response = await axios.post<RolePermission>(
+    `${API_URL}/role/${role_id}/permission/${permission_id}`,
+    {}, // 👈 importante: cuerpo vacío explícito
+    {
+      headers: {
+        'Content-Type': 'application/json' // 👈 importante
+      }
     }
+  );
+  return response;
+}
+
+
+
+
 
     async updateRolePermission(id: number, data: RolePermission) {
         const response = await axios.put<RolePermission>(`${API_URL}/${id}`, data);

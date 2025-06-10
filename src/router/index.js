@@ -158,7 +158,17 @@ const routes = [
         path: 'user-role-list',
         name: 'UserRoleList',
         component: () => import('../views/UserRol/UserRolList.vue')
-      }
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('../views/Profile/ProfileList.vue')
+      },
+      {
+        path: 'profiles-create',
+        name: 'profileCreate',
+        component: () => import('../views/Profile/ProfileCreate.vue')
+      },
 
 
 

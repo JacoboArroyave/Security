@@ -4,6 +4,10 @@
 
 <script lang="ts">
 import axios from 'axios';
+import 'leaflet/dist/leaflet.css';
+import * as L from 'leaflet';
+
+
 
 // Añadir un interceptor global para todas las solicitudes
 axios.interceptors.request.use(

@@ -11,7 +11,7 @@
         <div class="content-wrapper">
           <slot />
         </div>
-      </main> 
+      </main>
     </div>
     <div class="mobile-overlay" :class="{ 'active': !sidebarCollapsed }" @click="closeSidebar"></div>
   </div>
@@ -76,7 +76,7 @@ export default {
   color: #f8fafc;
   display: flex;
   flex-direction: column;
-  box-shadow: 
+  box-shadow:
     4px 0 24px rgba(15, 23, 42, 0.12),
     0 0 0 1px rgba(148, 163, 184, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,12 +102,16 @@ export default {
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.main-content {
-  margin-left: 280px;
+@media (min-width: 769px) {
+  .layout:has(.sidebar.collapsed) .main-content {
+    margin-left: 80px;
+  }
 }
 
-.layout:has(.sidebar.collapsed) .main-content {
-  margin-left: 80px;
+@media (max-width: 768px) {
+  .layout .main-content {
+    margin-left: 0 !important;
+  }
 }
 
 .navbar {
@@ -118,13 +122,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 
+  box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.1),
     0 1px 2px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 50;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .content {
@@ -155,7 +160,6 @@ export default {
   transition: opacity 0.3s ease;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .layout {
     display: flex;
@@ -177,10 +181,6 @@ export default {
 
   .sidebar:not(.collapsed) {
     transform: translateX(0);
-  }
-
-  .main-content {
-    margin-left: 0;
   }
 
   .mobile-overlay.active {
@@ -205,7 +205,6 @@ export default {
   }
 }
 
-/* Scrollbar personalizado */
 .content::-webkit-scrollbar {
   width: 8px;
 }

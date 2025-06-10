@@ -38,7 +38,7 @@ onMounted(async () => {
   if (props.id && props.service.get) {
     try {
       const fetched = await props.service.get(props.id);
-      Object.assign(formObject, fetched);
+      Object.assign(formObject, fetched.data);
     } catch (error) {
       console.error("Error al cargar datos:", error);
     }
@@ -52,6 +52,8 @@ const submitForm = async () => {
   successMessage.value = "";
   try {
     if (props.id) {
+        console.log("h3llos");
+        
       await props.service.update(props.id, formObject);
       successMessage.value = "Actualizado exitosamente.";
     } else {

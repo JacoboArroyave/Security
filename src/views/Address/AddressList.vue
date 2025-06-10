@@ -29,7 +29,7 @@ const actions = [
   {
     component: 'router-link',
     getProps: (item: any) => ({
-      to: `/addresses/update/${item.id}`,
+      to: `/addresses-update/${item.id}`,
       class: 'text-blue-600 hover:text-blue-800 flex items-center'
     }),
     slot: () => 'Editar'

@@ -16,6 +16,26 @@ const routes = [
         path: 'addresses-create',
         name: 'AddressCreate',
         component: () => import('../views/Address/AddresCreateForm.vue')
+      },
+      {
+        path: 'addresses-update/:id',
+        name: 'AddressUpdate',
+        component: () => import('../views/Address/AddresUpdate.vue')
+      },
+      {
+        path: 'password',
+        name: 'PasswordList',
+        component: () => import('../views/Password/PasswordList.vue')
+      },
+      {
+        path: 'password-create',
+        name: 'PasswordCreate',
+        component: () => import('../views/Password/PasswordCreateForm.vue')
+      },
+      {
+        path: 'password-update/:id',
+        name: 'PasswordUpdate',
+        component: () => import('../views/Password/PasswordUpdateForm.vue')
       }
     ]
 

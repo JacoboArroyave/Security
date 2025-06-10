@@ -1,5 +1,6 @@
 export interface Permission {
-  id: number;
+  id?: number;
   url: string;
   method: string;
+  entity: string;
 }

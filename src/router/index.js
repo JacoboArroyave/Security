@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useUserStore } from '../stores/user'
 
 const routes = [
   {
@@ -7,6 +8,11 @@ const routes = [
     name: 'Home',
     component: HomeView,
     children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('../Login.vue')
+      },
       {
         path: 'addresses',
         name: 'AddressList',
@@ -76,7 +82,43 @@ const routes = [
         path: 'answers/create',
         name: 'AnswerCreate',
         component: () => import('../views/Answer/AnswerCreateForm.vue')
-      }
+      },
+      {
+        path: 'permissions',
+        name: 'PermissionList',
+        component: () => import('../views/Permissions/PermissionsList.vue')
+      },
+      {
+        path: 'permissions/create',
+        name: 'PermissionCreate',
+        component: () => import('../views/Permissions/PermissionsCreate.vue')
+      },
+      {
+        path: '/permissions/update/:id',
+        name: 'PermissionUpdate',
+        component: () => import('../views/Permissions/PermissionsUpdate.vue'),
+        props: true
+      },
+      {
+        path: '/sessions',
+        name: 'SessionsList',
+        component: () => import('../views/Sessions/SessionsList.vue'),
+      },
+      {
+        path: '/sessions/create',
+        name: 'SessionsCreate',
+        component: () => import('../views/Sessions/SessionsCreate.vue'),
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: () => import('../views/Users/UsersList.vue'),
+      },
+      {
+  path: '/users/create',
+  name: 'UserCreate',
+  component: () => import('../views/users/UserCreate.vue')
+}
 
 
     ]
@@ -89,5 +131,33 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+router.beforeEach((to, from, next) => {
+  const store = useUserStore()
+  const storedUser = localStorage.getItem('user')
+
+  // Si hay algo en localStorage pero no en el store, sincronízalo
+  if (storedUser && !store.user) {
+    store.setUser(JSON.parse(storedUser))
+  }
+
+  const isAuthenticated = !!store.user
+
+  // Permitir acceso al login siempre
+  if (to.name === 'login') {
+    if (isAuthenticated) {
+      next({ name: 'Home' }) // Si ya está logueado, redirige al Home
+    } else {
+      next() // Deja pasar al login
+    }
+  } else {
+    // Para cualquier otra ruta
+    if (!isAuthenticated) {
+      next({ name: 'login' }) // Si no está logueado, redirige a login
+    } else {
+      next() // Si está logueado, deja pasar
+    }
+  }
+})
+
 
 export default router

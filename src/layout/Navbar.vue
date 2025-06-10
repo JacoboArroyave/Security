@@ -75,7 +75,7 @@
             Configuración
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item logout" @click.prevent="handleLogout">
+          <a href="/login" class="dropdown-item logout" @click.prevent="handleLogout">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16,17 21,12 16,7"></polyline>
@@ -91,52 +91,66 @@
 
 <script lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router' // ✅ IMPORTANTE
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 export default {
   emits: ['toggle-sidebar'],
+  
   setup() {
-    const searchQuery = ref('')
-    const dropdownOpen = ref(false)
-    const dropdown = ref(null)
+  const router = useRouter() // ✅ Accede al router
 
-    const handleSearch = () => {
-      // Implementar lógica de búsqueda
-      console.log('Searching for:', searchQuery.value)
-    }
+  const searchQuery = ref('')
+  const dropdownOpen = ref(false)
+  const dropdown = ref<HTMLElement | null>(null)
 
-    const toggleDropdown = () => {
-      dropdownOpen.value = !dropdownOpen.value
-    }
+  const handleSearch = () => {
+    console.log('Searching for:', searchQuery.value)
+  }
 
-    const handleClickOutside = (event: Event) => {
-      if (dropdown.value && !dropdown.value.contains(event.target)) {
-        dropdownOpen.value = false
-      }
-    }
+  const toggleDropdown = () => {
+    dropdownOpen.value = !dropdownOpen.value
+  }
 
-    const handleLogout = () => {
-      // Implementar lógica de logout
-      console.log('Logging out...')
+  const handleClickOutside = (event: Event) => {
+    if (dropdown.value && !dropdown.value.contains(event.target as Node)) {
       dropdownOpen.value = false
     }
-
-    onMounted(() => {
-      document.addEventListener('click', handleClickOutside)
-    })
-
-    onUnmounted(() => {
-      document.removeEventListener('click', handleClickOutside)
-    })
-
-    return {
-      searchQuery,
-      dropdownOpen,
-      dropdown,
-      handleSearch,
-      toggleDropdown,
-      handleLogout
-    }
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('google_token')
+    localStorage.removeItem('user')
+
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      window.google.accounts.id.disableAutoSelect()
+    }
+
+    router.push('/login') // ✅ Usa router.push en lugar de this.$router
+  }
+
+  onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
+  })
+
+  onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside)
+  })
+
+  return {
+    searchQuery,
+    dropdownOpen,
+    dropdown,
+    handleSearch,
+    toggleDropdown,
+    handleLogout
+  }
+}
+
 }
 </script>
 

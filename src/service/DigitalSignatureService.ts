@@ -1,30 +1,30 @@
 import axios from 'axios';
 import type { DigitalSignature } from '../models/DigitalSignature';
 
-const API_URL = import.meta.env.VITE_API_URL + "/digital-signatures"; //DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "/api/digital-signatures"; //DEPRONTO CAMBIAR ENDOPOINT
 
 class DigitalSignatureService {
-    async getSignatures() {
+    async getDigitalSignatures() {
         const response = await axios.get<DigitalSignature[]>(API_URL);
         return response;
     }
 
-    async getSignature(id: number) {
+    async getDigitalSignature(id: number) {
         const response = await axios.get<DigitalSignature>(`${API_URL}/${id}`);
         return response;
     }
 
-    async createSignature(signature: DigitalSignature) {
+    async createDigitalSignature(signature: DigitalSignature) {
         const response = await axios.post<DigitalSignature>(API_URL, signature);
         return response;
     }
 
-    async updateSignature(id: number, signature: DigitalSignature) {
+    async updateDigitalSignature(id: number, signature: DigitalSignature) {
         const response = await axios.put<DigitalSignature>(`${API_URL}/${id}`, signature);
         return response;
     }
 
-    async deleteSignature(id: number) {
+    async deleteDigitalSignature(id: number) {
         await axios.delete(`${API_URL}/${id}`);
     }
 }

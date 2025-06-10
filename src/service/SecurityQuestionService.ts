@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { SecurityQuestion } from '../models/SecurityQuestion';
 
-const API_URL = import.meta.env.VITE_API_URL + "/security-questions"; //DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "/api/security-questions"; //DEPRONTO CAMBIAR ENDOPOINT
 
 class SecurityQuestionService {
     async getSecurityQuestions() {

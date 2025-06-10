@@ -36,11 +36,53 @@ const routes = [
         path: 'password-update/:id',
         name: 'PasswordUpdate',
         component: () => import('../views/Password/PasswordUpdateForm.vue')
+      },
+      {
+        path: 'device',
+        name: 'DeviceList',
+        component: () => import('../views/Device/DeviceList.vue')
+      },
+      {
+        path: 'devices/create',
+        name: 'DeviceCreate',
+        component: () => import('../views/Device/DeviceCreateForm.vue')
+      },
+      {
+        path: 'security-question',
+        name: 'SecurityQuestionList',
+        component: () => import('../views/SecurityQuestion/SecurityQuestionList.vue')
+      },
+      {
+        path: 'security-questions/create',
+        name: 'SecurityQuestionCreate',
+        component: () => import('../views/SecurityQuestion/SecurityQuestionCreateForm.vue')
+      },
+      {
+        path: 'digital-signature',
+        name: 'DigitalSignatureList',
+        component: () => import('../views/DigitalSignature/DigitalSignatureList.vue')
+      },
+      {
+        path: 'signatures/create',
+        name: 'DigitalSignatureCreate',
+        component: () => import('../views/DigitalSignature/DigitalSignatureCreateForm.vue')
+      },
+      {
+        path: 'answer',
+        name: 'AnswerList',
+        component: () => import('../views/Answer/AnswerList.vue')
+      },
+      {
+        path: 'answers/create',
+        name: 'AnswerCreate',
+        component: () => import('../views/Answer/AnswerCreateForm.vue')
       }
+
+
     ]
 
   },
-  
+
 ]
 
 const router = createRouter({

@@ -47,4 +47,4 @@ const deletePassword = async (id: number | string) => {
 };
 
 onMounted(fetchPasswords);
-</script>
+</script>

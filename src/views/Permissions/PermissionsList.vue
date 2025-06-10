@@ -1,4 +1,4 @@
-<template>
+  <template>
   <List
     :title="'Lista de Permisos'"
     :headers="['URL', 'Método', 'Entidad']"

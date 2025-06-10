@@ -123,7 +123,7 @@
 
           <li class="nav-item">
             <router-link 
-              to="/permission" 
+              to="/permissions" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Permisos' : ''"

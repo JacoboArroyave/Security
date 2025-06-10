@@ -48,6 +48,11 @@ const routes = [
         component: () => import('../views/Device/DeviceCreateForm.vue')
       },
       {
+        path: 'devices/update/:id',
+        name: 'DeviceUpdate',
+        component: () => import('../views/Device/DeviceUpdate.vue')
+      },
+      {
         path: 'security-question',
         name: 'SecurityQuestionList',
         component: () => import('../views/SecurityQuestion/SecurityQuestionList.vue')
@@ -58,13 +63,23 @@ const routes = [
         component: () => import('../views/SecurityQuestion/SecurityQuestionCreateForm.vue')
       },
       {
+        path: '/security-questions/update/:id',
+        name: 'SecurityQuestionUpdate',
+        component: () => import('../views/SecurityQuestion/SecurityQuestionUpdate.vue')
+      },
+      {
         path: 'digital-signature',
         name: 'DigitalSignatureList',
         component: () => import('../views/DigitalSignature/DigitalSignatureList.vue')
       },
       {
+        path: 'signatures/update/:id',
+        name: 'DigitalSignatureUpdate',
+        component: () => import('../views/DigitalSignature/DigitalSignatureUpdate.vue')
+      },
+      {
         path: 'signatures/create',
-        name: 'DigitalSignatureCreate',
+        name: 'DigitalSignatureCreateForm',
         component: () => import('../views/DigitalSignature/DigitalSignatureCreateForm.vue')
       },
       {
@@ -78,16 +93,22 @@ const routes = [
         component: () => import('../views/Answer/AnswerCreateForm.vue')
       },
       {
-        path:"role",
-        name:"RolesList",
+        path: '/answers/update/:id',
+        name: 'AnswersUpdate',
+        component: () => import('../views/Answer/AnswerUpdate.vue')
+      },
+      {
+        path: "role",
+        name: "RolesList",
         component: () => import('../views/Role/RoleList.vue')
       },
       {
-        path:"roles-create",
-        name:"RolesCreate",
+        path: "roles-create",
+        name: "RolesCreate",
         component: () => import('../views/Role/RoleCreateForm.vue')
       },
       {
+<<<<<<< Updated upstream
         path:"user-rol-list/role/:id",
         name:"UserRolList",
         component: () => import('../views/UserRol/UserRolListbyRole.vue')
@@ -95,6 +116,10 @@ const routes = [
       {
         path:"roles-update/:id",
         name:"RolesUpdate",
+=======
+        path: "roles-update/:id",
+        name: "RolesUpdate",
+>>>>>>> Stashed changes
         component: () => import('../views/Role/RoleUpdateForm.vue')
       },
       {

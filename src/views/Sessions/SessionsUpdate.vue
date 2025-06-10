@@ -33,12 +33,24 @@ const validate = (field: string, value: any) => {
   return { success: true };
 };
 
+function formatToISO(value: string) {
+if (!value) return '';
+  // value: '2024-01-01T00:00' => '2024-01-01 00:00:00'
+  return value.replace('T', ' ') + ':00';// formato requerido por tu backend
+}
+
 // Servicio con los métodos necesarios
-const service = {
-  get: SessionService.getSession,
-  create: SessionService.createSession, // requiere userId aparte
-  update: SessionService.updateSession
+const sessionService = {
+  update: (id: string, session: Session) => {
+    const data = {
+      ...session,
+       expiration: formatToISO(session.expiration)
+    };
+    return SessionService.updateSession(id, data); // ← Esto es clave
+  },
+  get: (id: string) => SessionService.getSession(id)
 };
+
 </script>
 
 <template>
@@ -47,7 +59,7 @@ const service = {
     :initialObject="initialObject"
     :fields="fields"
     :validator="validate"
-    :service="service"
+    :service="sessionService"
     title="Gestión de Sesión"
   />
 </template>

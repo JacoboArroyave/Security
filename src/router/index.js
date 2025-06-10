@@ -34,7 +34,7 @@ const routes = [
         component: () => import('../views/Password/PasswordList.vue')
       },
       {
-        path: 'password-create',
+        path: 'password/create',
         name: 'PasswordCreate',
         component: () => import('../views/Password/PasswordCreateForm.vue')
       },
@@ -108,6 +108,11 @@ const routes = [
         path: '/sessions/create',
         name: 'SessionsCreate',
         component: () => import('../views/Sessions/SessionsCreate.vue'),
+      },
+      {
+        path: '/sessions/update/:id',
+        name: 'SessionsUpdate',
+        component: () => import('../views/Sessions/SessionsUpdate.vue'),
       },
       {
         path: '/users',

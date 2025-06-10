@@ -1,6 +1,5 @@
 export interface UserLogin {
-    aud: string;
-    azp: string;
+    token: string;
     email: string;
     email_verified: boolean;
     exp: number;

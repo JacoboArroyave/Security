@@ -39,9 +39,14 @@ onMounted(async () => {
     try {
       const fetched = await props.service.get(props.id);
       Object.assign(formObject, fetched.data);
-    } catch (error) {
-      console.error("Error al cargar datos:", error);
-    }
+    } catch (error: any) {
+  console.error("Error en la operación:", error);
+  if (error.response) {
+    console.error("Detalles del error:", error.response.data);
+  }
+  successMessage.value = "Error en la operación.";
+}
+
   }
 });
 

@@ -103,7 +103,7 @@ const routes = [
         component: () => import('../views/UserRol/UserRolCreate.vue')
       },
       {
-        path:"user-rol-update/:id",
+        path:"user-role-update/:id",
         name:"UserRolUpdate",
         component: () => import('../views/UserRol/UserRolUpdate.vue')
       },

@@ -4,11 +4,7 @@ import { z } from 'zod';
 export class DeviceValidator {
   private static schema = z.object({
     name: z.string().min(2, 'El nombre del dispositivo es obligatorio.'),
-    ip: z.string()
-      .regex(
-        /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/,
-        'Debe ingresar una IP válida.'
-      ),
+    ip: z.string().min(7, 'La IP es obligatoria.'),
     operating_system: z.string().min(2, 'El sistema operativo es obligatorio.')
   });
 

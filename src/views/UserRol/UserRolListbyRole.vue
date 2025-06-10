@@ -8,7 +8,7 @@
     :createLabel="''"
     :updateLink="() => ''"
     :onDelete="() => {}"
-    :actions="[]"
+    :actions="actions"
   />
 </template>
 
@@ -31,6 +31,30 @@ const fetchUsersByRole = async () => {
   const userRes = await UserService.getUsers();
   users.value = userRes.data.filter((u: any) => userIds.includes(u.id));
 };
+
+const deleteUserRole = async (userId: string | number) => {
+  const roleId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+  console.log(roleId,userId);
+  
+  // Busca la relación user-role específica
+  const res = await UserRoleService.getUsersByRole(roleId);
+  const userRole = res.data.find((ur: any) => ur.user_id === userId);
+  if (userRole) {
+    await UserRoleService.deleteUserRole(userRole.id);
+    fetchUsersByRole();
+  }
+};
+
+const actions = [
+  {
+    component: 'button',
+    getProps: (item: any) => ({
+      class: 'action-btn',
+      onClick: () => deleteUserRole(item.id)
+    }),
+    slot: () => 'Eliminar Relación'
+  }
+];
 
 onMounted(fetchUsersByRole);
 </script>

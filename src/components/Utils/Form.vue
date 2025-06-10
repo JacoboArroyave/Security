@@ -79,13 +79,37 @@ const submitForm = async () => {
       <form @submit.prevent="submitForm" class="form-grid">
         <div v-for="field in fields" :key="field.key" class="form-field">
           <label class="form-label">{{ field.label }}:</label>
-          <input
-            v-model="formObject[field.key]"
-            :type="field.type"
-            @input="validateField(field.key)"
-            @blur="validateField(field.key)"
-            class="form-input"
-          />
+          <template v-if="field.type === 'select'">
+          
+            <select
+              v-model="formObject[field.key]"
+              @change="validateField(field.key)"
+              class="form-input"
+            >
+              <option value="">Seleccione...</option>
+              <option v-for="option in (field.options || [])" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </template>
+          <template v-else>
+            <input
+              v-if="field.type !== 'date' && field.type !== 'datetime-local'"
+              v-model="formObject[field.key]"
+              :type="field.type"
+              @input="validateField(field.key)"
+              @blur="validateField(field.key)"
+              class="form-input"
+            />
+            <input
+              v-else
+              v-model="formObject[field.key]"
+              :type="field.type"
+              @input="validateField(field.key)"
+              @blur="validateField(field.key)"
+              class="form-input"
+            />
+          </template>
           <span class="form-error" v-if="errors[field.key]">{{ errors[field.key] }}</span>
         </div>
         <div class="form-actions">

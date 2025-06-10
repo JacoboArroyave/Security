@@ -76,6 +76,21 @@ const routes = [
         path: 'answers/create',
         name: 'AnswerCreate',
         component: () => import('../views/Answer/AnswerCreateForm.vue')
+      },
+      {
+        path:"role",
+        name:"RolesList",
+        component: () => import('../views/Role/RoleList.vue')
+      },
+      {
+        path:"roles-create",
+        name:"RolesCreate",
+        component: () => import('../views/Role/RoleCreateForm.vue')
+      },
+      {
+        path:"roles-update/:id",
+        name:"RolesUpdate",
+        component: () => import('../views/Role/RoleUpdateForm.vue')
       }
 
 

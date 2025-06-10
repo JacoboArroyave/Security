@@ -1,11 +1,13 @@
 import axios from 'axios';
 import type { User } from '../models/User';
 
-const API_URL = import.meta.env.VITE_API_URL + "/users"; // DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "/api/users"; 
 
 class UserService {
     async getUsers() {
+        
         const response = await axios.get<User[]>(API_URL);
+        
         return response;
     }
 

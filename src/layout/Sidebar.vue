@@ -245,7 +245,7 @@
 
           <li class="nav-item">
             <router-link 
-              to="/user-role" 
+              to="/user-role-list" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Usuarios y Roles' : ''"

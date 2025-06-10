@@ -33,6 +33,14 @@ const actions = [
     slot: () => 'Editar'
   },
   {
+    component: 'router-link',
+    getProps: (item: any) => ({
+      to: `/user-rol-list/role/${item.id}`,
+      class: 'action-btn'
+    }),
+    slot: () => 'Ver'
+  },
+  {
     component: 'button',
     getProps: (item: any) => ({
       class: 'action-btn',

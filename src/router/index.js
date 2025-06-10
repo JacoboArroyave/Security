@@ -88,10 +88,31 @@ const routes = [
         component: () => import('../views/Role/RoleCreateForm.vue')
       },
       {
+        path:"user-rol-list/role/:id",
+        name:"UserRolList",
+        component: () => import('../views/UserRol/UserRolListbyRole.vue')
+      },
+      {
         path:"roles-update/:id",
         name:"RolesUpdate",
         component: () => import('../views/Role/RoleUpdateForm.vue')
+      },
+      {
+        path:"user-role-create",
+        name:"UserRolCreate",
+        component: () => import('../views/UserRol/UserRolCreate.vue')
+      },
+      {
+        path:"user-rol-update/:id",
+        name:"UserRolUpdate",
+        component: () => import('../views/UserRol/UserRolUpdate.vue')
+      },
+      {
+        path:"user-role-list",
+        name:"UserRoleList", 
+        component: () => import('../views/UserRol/UserRolList.vue')
       }
+
 
 
     ]

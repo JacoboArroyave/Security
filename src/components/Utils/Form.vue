@@ -39,9 +39,14 @@ onMounted(async () => {
     try {
       const fetched = await props.service.get(props.id);
       Object.assign(formObject, fetched.data);
-    } catch (error) {
-      console.error("Error al cargar datos:", error);
-    }
+    } catch (error: any) {
+  console.error("Error en la operación:", error);
+  if (error.response) {
+    console.error("Detalles del error:", error.response.data);
+  }
+  successMessage.value = "Error en la operación.";
+}
+
   }
 });
 
@@ -80,11 +85,11 @@ const submitForm = async () => {
         <div v-for="field in fields" :key="field.key" class="form-field">
           <label class="form-label">{{ field.label }}:</label>
           <template v-if="field.type === 'select'">
-          
             <select
               v-model="formObject[field.key]"
               @change="validateField(field.key)"
               class="form-input"
+              :disabled="field.disabled"
             >
               <option value="">Seleccione...</option>
               <option v-for="option in (field.options || [])" :key="option.value" :value="option.value">
@@ -100,6 +105,7 @@ const submitForm = async () => {
               @input="validateField(field.key)"
               @blur="validateField(field.key)"
               class="form-input"
+              :disabled="field.disabled"
             />
             <input
               v-else
@@ -108,6 +114,7 @@ const submitForm = async () => {
               @input="validateField(field.key)"
               @blur="validateField(field.key)"
               class="form-input"
+              :disabled="field.disabled"
             />
           </template>
           <span class="form-error" v-if="errors[field.key]">{{ errors[field.key] }}</span>

@@ -1,111 +1,120 @@
 <template>
-    <div>
-        <div v-if="loading" class="text-center p-4">
-            <p>Cargando pregunta de seguridad...</p>
-        </div>
-        <div v-else-if="error" class="text-red-500 p-4">
-            <p>{{ error }}</p>
-            <button @click="$router.back()" class="mt-2 px-4 py-2 bg-gray-500 text-white rounded">
-                Volver
-            </button>
-        </div>
-        <Form 
-            v-else
-            :initial-object="initialQuestion"
-            :fields="fields"
-            :validator="(field, value) => SecurityQuestionValidator.validateField(field, value)"
-            :service="questionService"
-            :title="`Actualizar Pregunta de Seguridad #${questionId}`"
-            mode="update"
-            :entity-id="questionId"
-            :key="`update-${questionId}`"
-            @success="handleUpdateSuccess"
-            @error="handleUpdateError"
-        />
+  <div>
+    <div v-if="loading" class="text-center p-4">
+      <p>Cargando pregunta de seguridad...</p>
     </div>
+
+    <div v-else-if="error" class="text-red-500 p-4">
+      <p>{{ error }}</p>
+      <button @click="$router.back()" class="mt-2 px-4 py-2 bg-gray-500 text-white rounded">
+        Volver
+      </button>
+    </div>
+
+    <Form
+      v-else
+      :id="questionId"
+      :initial-object="initialQuestion"
+      :fields="fields"
+      :validator="validateField"
+      :service="questionService"
+      :title="`Editar Pregunta de Seguridad #${questionId}`"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Form from '../../components/Utils/Form.vue';
 import { SecurityQuestionValidator } from '../../utils/SecurityQuestionValidator';
 import SecurityQuestionService from '../../service/SecurityQuestionService';
 import type { SecurityQuestion } from '../../models/SecurityQuestion';
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
+const questionId = Number(route.params.id);
 
-const questionId = ref<number>(Number(route.params.id));
 const loading = ref(true);
 const error = ref<string>('');
+const users = ref<any[]>([]);
 
-const initialQuestion = ref<SecurityQuestion>({
-    id: undefined,
-    name: '',
-    description: ''
+const initialQuestion = ref<any>({
+  name: '',
+  description: '',
+  user_id: ''
 });
 
-const fields = [
-    { key: 'name', label: 'Nombre', type: 'text', required: true },
-    { key: 'description', label: 'Descripción', type: 'text', required: true }
-];
-
-const questionService = {
-    create: (question: SecurityQuestion) => SecurityQuestionService.createSecurityQuestion(question),
-    get: (id: number | string) => SecurityQuestionService.getSecurityQuestion(Number(id)),
-    update: (id: number | string, question: SecurityQuestion) => {
-        console.log('ACTUALIZANDO pregunta existente con ID:', id);
-
-        const updatedData = {
-            name: question.name,
-            description: question.description
-        };
-
-        console.log('URL usada:', `${import.meta.env.VITE_API_URL}/api/security-questions/${id}`);
-        console.log('Datos enviados:', updatedData);
-
-        return SecurityQuestionService.updateSecurityQuestion(Number(id), updatedData);
-    }
-};
+const fields = ref([
+  { key: 'name', label: 'Nombre', type: 'text' },
+  { key: 'description', label: 'Descripción', type: 'text' },
+  { key: 'user_id', label: 'Usuario', type: 'select', options: [] }
+]);
 
 onMounted(async () => {
-    try {
-        loading.value = true;
+  try {
+    loading.value = true;
 
-        if (!questionId.value || isNaN(questionId.value)) {
-            throw new Error('ID de pregunta de seguridad inválido');
-        }
+    const userRes = await import('../../service/UserService');
+    const UserService = userRes.default || userRes;
+    const userResponse = await UserService.getUsers();
+    users.value = userResponse.data;
 
-        console.log('Cargando pregunta con ID:', questionId.value);
-        const response = await SecurityQuestionService.getSecurityQuestion(questionId.value);
+    // Cargar pregunta de seguridad por ID
+    const response = await SecurityQuestionService.getSecurityQuestion(questionId);
+    const questionData = response.data;
 
-        if (response && response.data) {
-            initialQuestion.value = {
-                id: response.data.id,
-                name: response.data.name || '',
-                description: response.data.description || ''
-            };
-            console.log('Pregunta cargada para actualización:', initialQuestion.value);
-        } else {
-            throw new Error('No se pudo cargar la pregunta de seguridad');
-        }
-    } catch (err: any) {
-        console.error('Error cargando pregunta de seguridad:', err);
-        error.value = err.message || 'Error desconocido al cargar la pregunta de seguridad';
-    } finally {
-        loading.value = false;
-    }
+    initialQuestion.value = {
+      name: questionData.name,
+      description: questionData.description,
+      user_id: questionData.user?.id || '' // Asumimos que viene como user: { id, name }
+    };
+
+    // Inyectar opciones al campo user_id
+    fields.value = fields.value.map(field => {
+      if (field.key === 'user_id') {
+        return {
+          ...field,
+          options: users.value.map((user: any) => ({
+            label: user.name,
+            value: user.id
+          }))
+        };
+      }
+      return field;
+    });
+  } catch (err: any) {
+    console.error('Error cargando datos:', err);
+    error.value = err.message || 'Error al cargar los datos.';
+  } finally {
+    loading.value = false;
+  }
 });
 
-const handleUpdateSuccess = (result: any) => {
-    console.log('Actualización exitosa:', result);
-    alert('Pregunta de seguridad actualizada correctamente');
-    router.push('/security-questions');
+const validateField = (field: string, value: any) => {
+  try {
+    return SecurityQuestionValidator.validateField(field, value);
+  } catch {
+    return {
+      success: false,
+      error: {
+        errors: [{ message: 'Error de validación' }]
+      }
+    };
+  }
 };
 
-const handleUpdateError = (err: any) => {
-    console.error('Error en actualización:', err);
-    alert('Error al actualizar la pregunta de seguridad');
+const questionService = {
+  create: async () => {},
+  get: async (id: number | string) => {
+    return await SecurityQuestionService.getSecurityQuestion(Number(id));
+  },
+  update: async (id: number | string, question: any) => {
+    const updatedData = {
+      name: question.name,
+      description: question.description
+    };
+    return await SecurityQuestionService.updateSecurityQuestion(Number(id), updatedData, question.user_id);
+  }
 };
 </script>

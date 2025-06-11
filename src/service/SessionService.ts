@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Session } from '../models/Session';
 
-const API_URL = import.meta.env.VITE_API_URL + "/sessions";
+const API_URL = import.meta.env.VITE_API_URL + "api/sessions";
 
 class SessionService {
     async getSessions() {
@@ -9,15 +9,17 @@ class SessionService {
         return response;
     }
 
-    async getSession(id: number) {
+    async getSession(id: string) {
         const response = await axios.get<Session>(`${API_URL}/${id}`);
         return response;
     }
 
-    async createSession(data: Session) {
-        const response = await axios.post<Session>(API_URL, data);
-        return response;
-    }
+
+    async createSession(user_id: string, session: Session) {
+    const response = await axios.post<Session>(`${API_URL}/user/${user_id}`, session);
+    return response;
+  }
+
 
     async updateSession(id: number, data: Session) {
         const response = await axios.put<Session>(`${API_URL}/${id}`, data);

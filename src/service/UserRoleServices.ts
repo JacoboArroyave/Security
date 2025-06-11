@@ -22,6 +22,8 @@ class UserRoleService {
     }
 
     async updateUserRole(id: string, userRole: any) {
+        console.log("Updating user role with ID:", id, "and data:", userRole);
+        
         const response = await axios.put<UserRole>(`${API_URL}/${id}`, userRole);
         return response;
     }

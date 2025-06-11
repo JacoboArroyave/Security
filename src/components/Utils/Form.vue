@@ -73,6 +73,15 @@ const submitForm = async () => {
     isSubmitting.value = false;
   }
 };
+
+const handleFileChange = (e: Event, key: string) => {
+  const target = e.target as HTMLInputElement;
+  const file = target.files?.[0] || null;
+  formObject[key] = file;
+  validateField(key);
+};
+
+
 </script>
 
 <template>
@@ -97,6 +106,15 @@ const submitForm = async () => {
               </option>
             </select>
           </template>
+          <template v-else-if="field.type === 'file'">
+  <input
+    type="file"
+    :accept="field.accept"
+    class="form-input"
+    @change="(e: Event) => handleFileChange(e, field.key)"
+  />
+</template>
+
           <template v-else>
             <input
               v-if="field.type !== 'date' && field.type !== 'datetime-local'"

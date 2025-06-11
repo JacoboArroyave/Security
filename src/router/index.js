@@ -34,7 +34,7 @@ const routes = [
         component: () => import('../views/Password/PasswordList.vue')
       },
       {
-        path: 'password/create',
+        path: 'password-create',
         name: 'PasswordCreate',
         component: () => import('../views/Password/PasswordCreateForm.vue')
       },
@@ -189,13 +189,24 @@ const routes = [
         name: 'profileCreate',
         component: () => import('../views/Profile/ProfileCreate.vue')
       },
-
-
+      {
+        path: 'profiles-update/:id',
+        name: 'profileUpdate',
+        component: () => import('../views/Profile/ProfilesUpdate.vue')
+      },
+      {
+        path: 'role-permission',
+        name: 'RolePermisionList',
+        component: () => import('../views/RolePermissions/RolePermissionsList.vue')
+      },
+      {
+        path: 'role-permission-create',
+        name: 'RolePermisionCreate',
+        component: () => import('../views/RolePermissions/RolePermissionsCreate.vue')
+      },
 
     ]
-
   },
-
 ]
 
 const router = createRouter({

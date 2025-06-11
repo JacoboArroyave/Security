@@ -55,7 +55,7 @@ function hasPermission(entity: string, action: string) {
     const permission = permissions.value.find(p => p.entity.toLocaleLowerCase() === entity.toLocaleLowerCase())
     console.log(permission);
 
-    const res = permission.permissions.find(p => p.method.toLocaleLowerCase() === methods[action.toLocaleLowerCase()] && (isView ? p.url[p.url.length-1]==="?" : true));
+    const res = permission.permissions.find(p => p.method.toLocaleLowerCase() === methods[action.toLocaleLowerCase()] && (isView ? p.url[p.url.length-1]==="?" : action.toLocaleLowerCase() ==="list"?false:true));
 
     return res?res.has_permission : false;
 }

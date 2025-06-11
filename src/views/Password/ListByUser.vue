@@ -4,9 +4,7 @@
     :headers="headers"
     :fields="fields"
     :items="passwords"
-    :updateLink="updateLink"
     :onDelete="onDelete"
-    :actions="[]"
   />
 </template>
 

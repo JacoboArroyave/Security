@@ -57,6 +57,38 @@ const actions = [
     slot: () => 'Ver Perfil'
   },
   {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/device/by-user/${item.id}`,
+      class: 'text-pink-600 hover:text-pink-800 flex items-center'
+    }),
+    slot: () => 'Ver Dispositivos'
+  },
+  {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/digital-signature/by-user/${item.id}`,
+      class: 'text-indigo-600 hover:text-indigo-800 flex items-center'
+    }),
+    slot: () => 'Ver Firmas Digitales'
+  },
+  {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/sessions/by-user/${item.id}`,
+      class: 'text-cyan-600 hover:text-cyan-800 flex items-center'
+    }),
+    slot: () => 'Ver Sesiones'
+  },
+  {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/addresses/by-user/${item.id}`,
+      class: 'text-yellow-600 hover:text-yellow-800 flex items-center'
+    }),
+    slot: () => 'Ver Direcciones'
+  },
+  {
     component: 'button',
     getProps: (item: User) => ({
       class: 'text-red-600 hover:text-red-800 flex items-center',

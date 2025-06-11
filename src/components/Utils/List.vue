@@ -3,7 +3,7 @@
         <div class="list-card">
             <h1 class="list-title">{{ title }}</h1>
 
-            <router-link :to="createLink" class="list-create-btn">
+            <router-link v-if="createLabel && createLink" :to="createLink" class="list-create-btn">
                 <PlusCircleIcon class="icon" />
                 {{ createLabel }}
             </router-link>
@@ -13,13 +13,13 @@
                     <thead class="list-thead">
                         <tr>
                             <th v-for="header in headers" :key="header" class="list-th">{{ header }}</th>
-                            <th class="list-th">Acciones</th>
+                            <th v-if="actions && actions.length" class="list-th">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="item in items" :key="item.id" class="list-tr">
                             <td v-for="field in fields" :key="field" class="list-td">{{ item[field] }}</td>
-                            <td class="list-td list-actions">
+                            <td v-if="actions && actions.length" class="list-td list-actions">
                                 <template v-for="(action) in actions" :key="action.id">
                                     <component
                                         :is="action.component"

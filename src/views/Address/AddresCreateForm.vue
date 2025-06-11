@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form
-      :initial-object="initialAddress"
+      :initialObject="initialAddress"
       :fields="fields"
       :validator="(field, value) => AddressValidator.validateField(field, value)"
       :service="addressService"

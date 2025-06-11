@@ -32,8 +32,8 @@ class AddressService {
     }
 
     async getAddressesByUserId(userId: string) {
-        const response = await axios.get<Address[]>(`${API_URL}/user/${userId}`);
-        return response;
+        // Ajusta el endpoint según tu backend
+        return await axios.get(`${API_URL}/user/${userId}`);
     }
 }
 

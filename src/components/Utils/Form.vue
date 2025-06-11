@@ -4,8 +4,8 @@ import { onMounted, reactive, ref } from "vue";
 const props = defineProps<{
   id?: number | string,
   initialObject: Record<string, any>,
-  fields: Array<{ key: string, label: string, type: string }>,
-  validator:  (field: string, value: any) => any ,
+  fields: Array<{ key: string, label: string, type: string, accept?: string, disabled?: boolean, options?: any[] }>,
+  validator:  (field: string, value: any) => any,
   service: {
     get?: (id: number | string) => Promise<any>,
     create?: (obj: any) => Promise<any>,
@@ -18,6 +18,15 @@ const formObject = reactive({ ...props.initialObject });
 const errors = reactive<Record<string, string>>({});
 const isSubmitting = ref(false);
 const successMessage = ref("");
+const selectedFileRef = ref<File | null>(null);
+const previewUrl = ref<string | null>(null);
+
+const selectedFile = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0] || null;
+  selectedFileRef.value = file;
+  previewUrl.value = file ? URL.createObjectURL(file) : null;
+};
 
 const validateField = (field: string) => {
   const result = props.validator(field, formObject[field]);
@@ -33,42 +42,39 @@ const validateAllFields = () => {
 };
 
 onMounted(async () => {
-    console.log("Mounted Form Component");
-    
   if (props.id && props.service.get) {
     try {
       const fetched = await props.service.get(props.id);
       Object.assign(formObject, fetched.data);
     } catch (error: any) {
-  console.error("Error en la operación:", error);
-  if (error.response) {
-    console.error("Detalles del error:", error.response.data);
-  }
-  successMessage.value = "Error en la operación.";
-}
-
+      console.error("Error en la operación:", error);
+      if (error.response) {
+        console.error("Detalles del error:", error.response.data);
+      }
+      successMessage.value = "Error en la operación.";
+    }
   }
 });
 
+// Tu submitForm tal como lo compartiste
 const submitForm = async () => {
   validateAllFields();
   if (Object.keys(errors).length > 0) return;
   isSubmitting.value = true;
   successMessage.value = "";
-  try {
+
+  try { 
     if (props.id) {
-        console.log("h3llos");
-        
-      await props.service.update(props.id, formObject);
+      console.log(selectedFileRef.value);
+      await props.service.update(props.id, { ...formObject, file: selectedFileRef.value });
       successMessage.value = "Actualizado exitosamente.";
     } else {
-      console.log("Creating new object with data:", formObject);
-      await props.service.create({...formObject });
+      await props.service.create({ ...formObject, file: selectedFileRef.value });
       successMessage.value = "Creado exitosamente.";
     }
   } catch (error) {
     console.error("Error en la operación:", error);
-    successMessage.value = "Error en la operación.";
+    successMessage.value = "Error en la  operación.";
   } finally {
     isSubmitting.value = false;
   }
@@ -84,7 +90,24 @@ const submitForm = async () => {
       <form @submit.prevent="submitForm" class="form-grid">
         <div v-for="field in fields" :key="field.key" class="form-field">
           <label class="form-label">{{ field.label }}:</label>
-          <template v-if="field.type === 'select'">
+
+          <template v-if="field.type === 'file'">
+            <input
+              type="file"
+              class="form-input"
+              :accept="field.accept || '*/*'"
+              @change="selectedFile"
+              :disabled="field.disabled"
+            />
+            <img
+              v-if="previewUrl"
+              :src="previewUrl"
+              alt="Vista previa"
+              style="max-width: 200px; margin-top: 8px; border-radius: 8px;"
+            />
+          </template>
+
+          <template v-else-if="field.type === 'select'">
             <select
               v-model="formObject[field.key]"
               @change="validateField(field.key)"
@@ -97,18 +120,19 @@ const submitForm = async () => {
               </option>
             </select>
           </template>
-          <template v-else>
+
+          <template v-else-if="field.type === 'date' || field.type === 'datetime-local'">
             <input
-              v-if="field.type !== 'date' && field.type !== 'datetime-local'"
               v-model="formObject[field.key]"
               :type="field.type"
-              @input="validateField(field.key)"
               @blur="validateField(field.key)"
               class="form-input"
               :disabled="field.disabled"
             />
+          </template>
+
+          <template v-else>
             <input
-              v-else
               v-model="formObject[field.key]"
               :type="field.type"
               @input="validateField(field.key)"
@@ -117,13 +141,16 @@ const submitForm = async () => {
               :disabled="field.disabled"
             />
           </template>
+
           <span class="form-error" v-if="errors[field.key]">{{ errors[field.key] }}</span>
         </div>
+
         <div class="form-actions">
           <button type="submit" :disabled="Object.keys(errors).length > 0 || isSubmitting" class="form-btn">
             {{ isSubmitting ? "Enviando..." : (props.id ? "Actualizar" : "Crear") }}
           </button>
         </div>
+
         <p v-if="successMessage" class="form-success">{{ successMessage }}</p>
       </form>
     </div>

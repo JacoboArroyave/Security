@@ -27,6 +27,11 @@ class DeviceService {
   async deleteDevice(id: number) {
     await axios.delete(`${API_URL}/${id}`);
   }
+
+  async getDevicesByUserId(userId: string) {
+    // Ajusta el endpoint según tu backend
+    return await axios.get(`${API_URL}/user/${userId}`);
+  }
 }
 
 export default new DeviceService();

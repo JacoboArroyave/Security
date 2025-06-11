@@ -81,7 +81,7 @@ const routes = [
       {
         path: 'signatures/update/:id',
         name: 'DigitalSignatureUpdate',
-        component: () => import('../views/DigitalSignature/DigitalSignatureUpdate.vue')
+        component: () => import('../views/DigitalSignature/DigitalSignatureUpdateForm.vue')
       },
       {
         path: 'signatures/create',
@@ -195,6 +195,16 @@ const routes = [
         component: () => import('../views/Profile/ProfileCreate.vue')
       },
       {
+        path: 'profiles-update/:id',
+        name: 'profileUpdate',
+        component: () => import('../views/Profile/ProfilesUpdate.vue')
+      },
+      {
+        path: 'user-role/role/:id',
+        name: 'userRoleByRole',
+        component: () => import('../views/Role/CreateNewUserForRole.vue') 
+      },
+      {
         path: 'role-permission',
         name: 'RolePermisionList',
         component: () => import('../views/RolePermissions/RolePermissionsList.vue')
@@ -214,10 +224,28 @@ const routes = [
         name: 'ProfileListByUser',
         component: () => import('../views/Profile/ProfileListByUser.vue')
       },
+      {
+        path: 'device/by-user/:id',
+        name: 'DeviceListByUser',
+        component: () => import('../views/Device/DeviceListByUser.vue')
+      },
+      {
+        path: 'digital-signature/by-user/:id',
+        name: 'DigitalSignatureListByUser',
+        component: () => import('../views/DigitalSignature/DigitalSignatureListByUser.vue')
+      },
+      {
+        path: 'sessions/by-user/:id',
+        name: 'SessionsListByUser',
+        component: () => import('../views/Sessions/SessionsListByUser.vue')
+      },
+      {
+        path: 'addresses/by-user/:id',
+        name: 'AddressListByUser',
+        component: () => import('../views/Address/AddressListByUser.vue')
+      },
     ]
-
   },
-
 ]
 
 const router = createRouter({

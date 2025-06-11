@@ -4,8 +4,8 @@
     :headers="['ID', 'Nombre', 'Email']"
     :fields="['id', 'name', 'email']"
     :items="users"
-    :createLink="''"
-    :createLabel="''"
+    :createLink="ruta"
+    :createLabel="'Agregar usuario a este rol'"
     :updateLink="() => ''"
     :onDelete="() => {}"
     :actions="actions"
@@ -18,13 +18,15 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import UserRoleService from '../../service/UserRoleServices';
 import UserService from '../../service/UserService';
-  
 const route = useRoute();
 const users = ref<any[]>([]);
+const ruta = ref<string>(''); // define ruta as a ref
 
 const fetchUsersByRole = async () => {
   const roleId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
   // Obtener los user_id asociados a este rol
+  ruta.value = `/user-role/role/${roleId}`; // update ruta when fetching users
+
   const res = await UserRoleService.getUsersByRole(roleId);
   const userIds = res.data.map((ur: any) => ur.user_id);
   // Obtener los datos de usuario

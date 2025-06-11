@@ -70,7 +70,7 @@ onMounted(async () => {
 });
 
 const answerService = {
-  update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(Number(id), answer),
+  update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(answer,id),
   get: (id: number | string) => AnswerService.getAnswer(Number(id))
 };
 </script>

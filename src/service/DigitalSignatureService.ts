@@ -4,6 +4,8 @@ const API_URL = import.meta.env.VITE_API_URL + "/api/digital-signatures"; //DEPR
 
 const DigitalSignatureService = {
   async createDigitalSignature(formData: FormData, userId: number) {
+    console.log(formData);
+    
     return await axios.post(`${API_URL}/user/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -20,6 +22,11 @@ const DigitalSignatureService = {
   },
 
   async getDigitalSignatureByUserId(userId: number) {
+    return await axios.get(`${API_URL}/user/${userId}`);
+  },
+
+  async getSignaturesByUserId(userId: string) {
+    // Ajusta el endpoint según tu backend
     return await axios.get(`${API_URL}/user/${userId}`);
   },
 

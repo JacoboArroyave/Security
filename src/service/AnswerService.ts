@@ -19,8 +19,10 @@ class AnswerService {
         return response;
     }
 
-    async updateAnswer( answer: Answer) {
-        const response = await axios.put<Answer>(`${API_URL}/user/${answer.user_id}/question/${answer.security_question_id}`, answer);
+    async updateAnswer( answer: Answer,id:any) {
+        console.log(answer);
+
+        const response = await axios.put<Answer>(`${API_URL}/${id}`, answer);
         return response;
     }
 

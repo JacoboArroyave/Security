@@ -1,39 +1,68 @@
 <template>
-  <SignatureForm
-    :initial-object="initialSignature"
-    :fields="fields"
-    :validator="validateSignatureField"
-    :service="signatureService"
-    title="Crear Firma Digital"
-  />
+  <Form :initial-object="initialSignature" :fields="fields" :validator="validateSignatureField"
+    :service="signatureService" title="Crear Firma Digital" />
 </template>
 
 <script setup lang="ts">
-import SignatureForm from '../../components/Utils/SignatureForm.vue';
+import { ref, onMounted } from 'vue';
+import Form from '../../components/Utils/Form.vue';
 import { DigitalSignatureValidator } from '../../utils/DigitalSignatureValidator';
 import DigitalSignatureService from '../../service/DigitalSignatureService';
-import type { DigitalSignature } from '../../models/DigitalSignature';
+import UserService from '../../service/UserService';
 
-const userId = 1; // TODO: reemplazar por el usuario autenticado
-
-const initialSignature: DigitalSignature = {
-  photo: null
+const initialSignature = {
+  photo: '',
+  user_id: ''
 };
 
-const fields = [
+const users = ref<any[]>([]);
+const fields = ref([
+  {
+    key: 'user_id',
+    label: 'Usuario',
+    type: 'select',
+    options: []
+  },
   { 
-    key: 'photo', 
-    label: 'Foto de la Firma', 
+    key: 'photo',
+    label: 'Foto de la Firma',
     type: 'file',
     accept: 'image/*'
   }
-];
+]);
+
+onMounted(async () => {
+  const userResponse = await UserService.getUsers();
+  users.value = userResponse.data;
+  fields.value = fields.value.map(field => {
+    if (field.key === 'user_id') {
+      return {
+        ...field,
+        options: users.value.map((user: any) => ({ label: user.name, value: user.id }))
+      };
+    }
+    return field;
+  });
+});
 
 const validateSignatureField = (field: string, value: any) => {
   try {
-    return DigitalSignatureValidator.validateField(field, value);
+    // Solo validar si el campo existe en el schema
+    if (field === 'photo') {
+      return DigitalSignatureValidator.validateField('photo', value);
+    }
+    // Para user_id, validación simple
+    if (field === 'user_id') {
+      return {
+        success: !!value,
+        error: {
+          errors: value ? [] : [{ message: 'Seleccione un usuario' }]
+        }
+      };
+    }
+    return { success: true, error: { errors: [] } };
   } catch (error) {
-    return {
+    return {  
       success: false,
       error: {
         errors: [{ message: 'Error de validación' }]
@@ -44,28 +73,12 @@ const validateSignatureField = (field: string, value: any) => {
 
 const signatureService = {
   create: async (signature: any) => {
+    console.log(signature.file);
     const formData = new FormData();
-    if (signature.photo instanceof File) {
-      formData.append('photo', signature.photo);
-    }
-    return await DigitalSignatureService.createDigitalSignature(formData, userId);
-  },
-
-  get: async (id: number | string) => {
-    return await DigitalSignatureService.getDigitalSignature(Number(id));
-  },
-
-  update: async (id: number | string, signature: any) => {
-    const formData = new FormData();
-    if (signature.photo instanceof File) {
-      formData.append('photo', signature.photo);
-      return await DigitalSignatureService.updateDigitalSignature(Number(id), formData);
-    }
-    return await DigitalSignatureService.updateDigitalSignature(Number(id), signature);
-  },
-
-  delete: async (id: number | string) => {
-    return await DigitalSignatureService.deleteDigitalSignature(Number(id));
+    formData.append('photo', signature.file);
+    console.log(formData.keys());
+    
+    return await DigitalSignatureService.createDigitalSignature(formData,signature.user_id);
   }
 };
 </script>

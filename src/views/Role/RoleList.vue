@@ -41,6 +41,14 @@ const actions = [
     slot: () => 'Ver'
   },
   {
+    component: 'router-link',
+    getProps: (item: any) => ({
+      to: `/role-permissions/role/${item.id}`,
+      class: 'action-btn'
+    }),
+    slot: () => 'Permisos'
+  },
+  {
     component: 'button',
     getProps: (item: any) => ({
       class: 'action-btn',

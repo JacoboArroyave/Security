@@ -27,6 +27,7 @@ class RolePermissionService {
     async deleteRolePermission(id: number) {
         await axios.delete(`${API_URL}/${id}`);
     }
+   
 }
 
 export default new RolePermissionService();

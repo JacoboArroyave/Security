@@ -158,6 +158,11 @@ const routes = [
         path: 'user-role-list',
         name: 'UserRoleList',
         component: () => import('../views/UserRol/UserRolList.vue')
+      },
+      {
+        path: 'role-permissions/role/:id',
+        name: 'RolePermissionsList',
+        component: () => import('../views/RolePermissions/ListPermissionsByRole.vue')
       }
 
 

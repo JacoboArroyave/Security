@@ -27,6 +27,10 @@ class PermissionService {
     async deletePermission(id: number) {
         await axios.delete(`${API_URL}/${id}`);
     }
+    async getPermissionsByRoleId(roleId: number) {
+        const response = await axios.get<Permission[]>(`${API_URL}/grouped/role/${roleId}`);
+        return response;
+    }
 }
 
 export default new PermissionService();

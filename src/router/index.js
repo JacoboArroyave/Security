@@ -163,7 +163,17 @@ const routes = [
         path: 'role-permissions/role/:id',
         name: 'RolePermissionsList',
         component: () => import('../views/RolePermissions/ListPermissionsByRole.vue')
-      }
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('../views/Profile/ProfileList.vue')
+      },
+      {
+        path: 'profiles-create',
+        name: 'profileCreate',
+        component: () => import('../views/Profile/ProfileCreate.vue')
+      },
 
 
 

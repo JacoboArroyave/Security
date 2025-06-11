@@ -227,7 +227,7 @@
 
           <li class="nav-item">
             <router-link 
-              to="/user" 
+              to="/users" 
               active-class="active"
               class="nav-link"
               :title="collapsed ? 'Usuarios' : ''"

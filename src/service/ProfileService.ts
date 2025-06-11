@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Profile } from "../models/Profile";
 
-const API_URL = import.meta.env.VITE_API_URL + "api/profiles"; // DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "/api/profiles"; // DEPRONTO CAMBIAR ENDOPOINT
 
 class ProfileService {
   async createProfile(userId: string, formData: FormData) {
@@ -11,7 +11,7 @@ class ProfileService {
   }
 
   async getProfiles() {
-    return await axios.get(`${API_URL}/profiles`);
+    return await axios.get(`${API_URL}`);
   }
 
   async deleteProfile(id: string) {

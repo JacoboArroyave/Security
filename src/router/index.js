@@ -100,7 +100,7 @@ const routes = [
         props: true
       },
       {
-        path: '/sessions',
+        path: '/session',
         name: 'SessionsList',
         component: () => import('../views/Sessions/SessionsList.vue'),
       },
@@ -174,9 +174,16 @@ const routes = [
         name: 'profileCreate',
         component: () => import('../views/Profile/ProfileCreate.vue')
       },
-
-
-
+      {
+        path: 'role-permission',
+        name: 'RolePermisionList',
+        component: () => import('../views/RolePermissions/RolePermissionsList.vue')
+      },
+      {
+        path: 'role-permission-create',
+        name: 'RolePermisionCreate',
+        component: () => import('../views/RolePermissions/RolePermissionsCreate.vue')
+      },
     ]
 
   },

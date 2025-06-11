@@ -69,8 +69,8 @@ const addressService = {
   create: (address: any) => {
     const fullAddress = {
       ...address,
-      latitude: Math.trunc(selectedMapLocation.value.lat),
-      longitude: Math.trunc(selectedMapLocation.value.lng)
+      latitude: selectedMapLocation.value.lat,
+      longitude: selectedMapLocation.value.lng
     };
     console.log('🚀 Enviando dirección (solo enteros):', fullAddress);
     return AddressService.createAddress(fullAddress.user_id, fullAddress);

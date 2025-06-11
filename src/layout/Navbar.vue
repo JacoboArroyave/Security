@@ -46,18 +46,21 @@
       </div>
       
       <div class="user-dropdown" @click="toggleDropdown" ref="dropdown">
-        <div class="user-info">
-          <div class="user-avatar">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format" alt="Usuario" />
-          </div>
-          <div class="user-details">
-            <span class="user-name">Juan Pérez</span>
-            <span class="user-role">Administrador</span>
-          </div>
-          <svg class="dropdown-arrow" :class="{ 'rotated': dropdownOpen }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
+  <div class="user-info">
+    <div class="user-avatar">
+      <img :src="userStore.user?.picture " alt="Foto" />
+    </div>
+    <div class="user-details">
+<span>{{ userStore.user?.name || 'Invitado' }}</span>
+      <span class="user-role">Administrador</span>
+    </div>
+    <svg class="dropdown-arrow" :class="{ 'rotated': dropdownOpen }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6,9 12,15 18,9"></polyline>
+    </svg>
+  </div>
+
+
+
         
         <div class="dropdown-menu" :class="{ 'open': dropdownOpen }">
           <a href="#" class="dropdown-item">
@@ -91,68 +94,60 @@
 
 <script lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router' // ✅ IMPORTANTE
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+import { useRouter } from 'vue-router'
+import { useUserStore } from "../stores/user"
 
 export default {
   emits: ['toggle-sidebar'],
-  
+
   setup() {
-  const router = useRouter() // ✅ Accede al router
+    const router = useRouter()
+    const userStore = useUserStore()
+    const searchQuery = ref('')
+    const dropdownOpen = ref(false)
+    const dropdown = ref<HTMLElement | null>(null)
 
-  const searchQuery = ref('')
-  const dropdownOpen = ref(false)
-  const dropdown = ref<HTMLElement | null>(null)
-
-  const handleSearch = () => {
-    console.log('Searching for:', searchQuery.value)
-  }
-
-  const toggleDropdown = () => {
-    dropdownOpen.value = !dropdownOpen.value
-  }
-
-  const handleClickOutside = (event: Event) => {
-    if (dropdown.value && !dropdown.value.contains(event.target as Node)) {
-      dropdownOpen.value = false
-    }
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('google_token')
-    localStorage.removeItem('user')
-
-    if (window.google && window.google.accounts && window.google.accounts.id) {
-      window.google.accounts.id.disableAutoSelect()
+    const handleSearch = () => {
+      console.log('Searching for:', searchQuery.value)
     }
 
-    router.push('/login') // ✅ Usa router.push en lugar de this.$router
+    const toggleDropdown = () => {
+      dropdownOpen.value = !dropdownOpen.value
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdown.value && !dropdown.value.contains(event.target as Node)) {
+        dropdownOpen.value = false
+      }
+    }
+
+    const handleLogout = () => {
+      userStore.clearUser()
+      router.push('/login')
+    }
+
+    onMounted(() => {
+      document.addEventListener('click', handleClickOutside)
+      userStore.loadFromStorage() // Asegura que el usuario se cargue al montar
+    })
+
+    onUnmounted(() => {
+      document.removeEventListener('click', handleClickOutside)
+    })
+
+    return {
+      searchQuery,
+      dropdownOpen,
+      dropdown,
+      userStore,
+      handleSearch,
+      toggleDropdown,
+      handleLogout
+    }
   }
-
-  onMounted(() => {
-    document.addEventListener('click', handleClickOutside)
-  })
-
-  onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-  })
-
-  return {
-    searchQuery,
-    dropdownOpen,
-    dropdown,
-    handleSearch,
-    toggleDropdown,
-    handleLogout
-  }
-}
-
 }
 </script>
+
 
 <style scoped>
 .navbar-content {

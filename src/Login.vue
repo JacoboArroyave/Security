@@ -6,7 +6,7 @@ import { useUserStore } from "@/stores/user";
 
 const error = ref(null);
 const router = useRouter();
-const userStore = useUserStore();
+const userStore = useUserStore() 
 
 const allowedEmails = [
   "camiloreact12@gmail.com",

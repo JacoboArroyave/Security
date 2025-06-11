@@ -1,11 +1,13 @@
 import axios from "axios";
 import type { Profile } from "../models/Profile";
 
-const API_URL = import.meta.env.VITE_API_URL + "api/profiles"; // DEPRONTO CAMBIAR ENDOPOINT
+const API_URL = import.meta.env.VITE_API_URL + "/api"; // DEPRONTO CAMBIAR ENDOPOINT
 
 class ProfileService {
   async createProfile(userId: string, formData: FormData) {
-    return await axios.post(`${API_URL}/profiles/user/${userId}`, formData, {
+    const url = `${API_URL}/profiles/user/${userId}`;
+    console.log('[ProfileService.createProfile] URL:', url);
+    return await axios.post(url, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   }
@@ -14,14 +16,16 @@ class ProfileService {
     return await axios.get(`${API_URL}/profiles`);
   }
 
-  async deleteProfile(id: string) {
+  async deleteProfile(id: number) {
     return await axios.delete(`${API_URL}/profiles/${id}`);
   }
 
   async getProfile(id: number) {
-    const response = await axios.get<Profile>(`${API_URL}/${id}`);
-    return response;
-  }
+  const url = `${API_URL}/profiles/${id}`;
+  console.log('[getProfile] URL solicitada:', url); // 👈 LOG aquí
+  const response = await axios.get<Profile>(url);
+  return response;
+}
 
   async updateProfile(id: number, data: Profile) {
     const response = await axios.put<Profile>(`${API_URL}/${id}`, data);

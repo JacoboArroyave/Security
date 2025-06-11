@@ -54,6 +54,11 @@ const routes = [
         component: () => import('../views/Device/DeviceCreateForm.vue')
       },
       {
+        path: 'devices/update/:id',
+        name: 'DeviceUpdate',
+        component: () => import('../views/Device/DeviceUpdate.vue')
+      },
+      {
         path: 'security-question',
         name: 'SecurityQuestionList',
         component: () => import('../views/SecurityQuestion/SecurityQuestionList.vue')
@@ -64,13 +69,23 @@ const routes = [
         component: () => import('../views/SecurityQuestion/SecurityQuestionCreateForm.vue')
       },
       {
+        path: '/security-questions/update/:id',
+        name: 'SecurityQuestionUpdate',
+        component: () => import('../views/SecurityQuestion/SecurityQuestionUpdate.vue')
+      },
+      {
         path: 'digital-signature',
         name: 'DigitalSignatureList',
         component: () => import('../views/DigitalSignature/DigitalSignatureList.vue')
       },
       {
+        path: 'signatures/update/:id',
+        name: 'DigitalSignatureUpdate',
+        component: () => import('../views/DigitalSignature/DigitalSignatureUpdate.vue')
+      },
+      {
         path: 'signatures/create',
-        name: 'DigitalSignatureCreate',
+        name: 'DigitalSignatureCreateForm',
         component: () => import('../views/DigitalSignature/DigitalSignatureCreateForm.vue')
       },
       {
@@ -82,6 +97,11 @@ const routes = [
         path: 'answers/create',
         name: 'AnswerCreate',
         component: () => import('../views/Answer/AnswerCreateForm.vue')
+      },
+      {
+        path: 'answers/update/:id',
+        name: 'AnswerUpdate',
+        component: () => import('../views/Answer/AnswerUpdate.vue')
       },
       {
         path: 'permissions',

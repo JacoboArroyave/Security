@@ -1,14 +1,17 @@
 <template>
-  <Form :initial-object="initialAnswer" :fields="fields"
-    :validator="(field, value) => AnswerValidator.validateField(field, value)" :service="answerService"
-    title="Crear Respuesta" />
+  <Form
+    :initial-object="initialAnswer"
+    :fields="fields"
+    :validator="(field, value) => AnswerValidator.validateField(field, value)"
+    :service="answerService"
+    title="Crear Respuesta"
+  />
 </template>
 
 <script setup lang="ts">
 import Form from '../../components/Utils/Form.vue';
 import { AnswerValidator } from '../../utils/AnswerValidator';
 import AnswerService from '../../service/AnswerService';
-import type { Answer } from '../../models/Answer';
 import { ref, onMounted } from 'vue';
 
 const initialAnswer = {
@@ -39,7 +42,20 @@ onMounted(async () => {
     securityQuestions.value = questionResponse.data;
 
     fields.value = fields.value.map(field => {
+      
+      if (field.key === 'security_question_id') {
+        securityQuestions.value.forEach((question: any) => {console.log('Pregunta de seguridad:', question);});
+        
+        return {
+          ...field,
+          options: securityQuestions.value.map((question: any) => ({
+            label: question.name,
+            value: question.id
+          }))
+        };
+      }
       if (field.key === 'user_id') {
+
         return {
           ...field,
           options: users.value.map((user: any) => ({
@@ -48,18 +64,13 @@ onMounted(async () => {
           }))
         };
       }
-      if (field.key === 'security_question_id') {
-        return {
-          ...field,
-          options: securityQuestions.value.map((question: any) => ({
-            label: question.question,
-            value: question.id
-          }))
-        };
-      }
+      
       return field;
     });
+    console.log(fields.value);
+    
   } catch (error) {
+    // Puedes mostrar un mensaje de error si lo deseas
     console.error('Error cargando datos:', error);
   }
 });
@@ -73,6 +84,6 @@ const answerService = {
     );
   },
   get: (id: number | string) => AnswerService.getAnswer(Number(id)),
-  update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(Number(id), answer)
+  update: (id: number | string, answer: any) => AnswerService.updateAnswer(Number(id), answer)
 };
 </script>

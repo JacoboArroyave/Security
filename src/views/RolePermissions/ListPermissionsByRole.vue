@@ -48,12 +48,14 @@ const methods = {
 
 function hasPermission(entity: string, action: string) {
     console.log(entity, action, permissions.value);
+    let isView = false;
+    if (action.toLocaleLowerCase() === 'view') {
+        isView = true;
+    } 
     const permission = permissions.value.find(p => p.entity.toLocaleLowerCase() === entity.toLocaleLowerCase())
     console.log(permission);
-    permission?.permissions.forEach(p => {
-        console.log(p.method.toLocaleLowerCase(),  methods[action.toLocaleLowerCase()]);
-    });
-    const res = permission.permissions.find(p => p.method.toLocaleLowerCase() === methods[action.toLocaleLowerCase()]);
+
+    const res = permission.permissions.find(p => p.method.toLocaleLowerCase() === methods[action.toLocaleLowerCase()] && (isView ? p.url[p.url.length-1]==="?" : true));
 
     return res?res.has_permission : false;
 }

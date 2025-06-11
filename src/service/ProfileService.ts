@@ -27,6 +27,11 @@ class ProfileService {
     const response = await axios.put<Profile>(`${API_URL}/${id}`, data);
     return response;
   }
+
+  async getProfilesByUserId(userId: string) {
+    // Ajusta el endpoint según tu backend
+    return await axios.get(`${API_URL}/user/${userId}`);
+  }
 }
 
 export default new ProfileService();

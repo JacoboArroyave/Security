@@ -57,7 +57,7 @@ onMounted(async () => {
         return {
           ...field,
           options: securityQuestions.value.map((question: any) => ({
-            label: question.question,
+            label: question.name,
             value: question.id
           }))
         };

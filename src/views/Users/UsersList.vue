@@ -41,6 +41,22 @@ const actions = [
     slot: () => 'Editar'
   },
   {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/password/by-user/${item.id}`,
+      class: 'text-green-600 hover:text-green-800 flex items-center'
+    }),
+    slot: () => 'Ver Contraseñas'
+  },
+  {
+    component: 'router-link',
+    getProps: (item: User) => ({
+      to: `/profile/by-user/${item.id}`,
+      class: 'text-purple-600 hover:text-purple-800 flex items-center'
+    }),
+    slot: () => 'Ver Perfil'
+  },
+  {
     component: 'button',
     getProps: (item: User) => ({
       class: 'text-red-600 hover:text-red-800 flex items-center',

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Session } from '../models/Session';
 
-const API_URL = import.meta.env.VITE_API_URL + "api/sessions";
+const API_URL = import.meta.env.VITE_API_URL + "/api/sessions";
 
 class SessionService {
     async getSessions() {

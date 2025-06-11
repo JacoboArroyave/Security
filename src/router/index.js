@@ -108,7 +108,6 @@ const routes = [
         component: () => import('../views/Role/RoleCreateForm.vue')
       },
       {
-<<<<<<< Updated upstream
         path:"user-rol-list/role/:id",
         name:"UserRolList",
         component: () => import('../views/UserRol/UserRolListbyRole.vue')
@@ -116,10 +115,8 @@ const routes = [
       {
         path:"roles-update/:id",
         name:"RolesUpdate",
-=======
         path: "roles-update/:id",
         name: "RolesUpdate",
->>>>>>> Stashed changes
         component: () => import('../views/Role/RoleUpdateForm.vue')
       },
       {

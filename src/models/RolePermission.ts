@@ -1,5 +1,5 @@
 export interface RolePermission {
   id: string;
-  startAt: string;     
-  endAt: string;       
+  permission_id: number;
+  role_id: number;
 }

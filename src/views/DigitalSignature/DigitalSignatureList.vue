@@ -7,7 +7,15 @@
     createLink="/signatures/create"
     createLabel="Crear Firma Digital"
     :actions="actions"
-  />
+  >
+    <template #field-photo="{ item }">
+      <img
+        :src="item.photo"
+        alt="Firma Digital"
+        class="w-20 h-20 object-contain border rounded"
+      />
+    </template>
+  </List>
 </template>
 
 <script setup lang="ts">
@@ -20,7 +28,7 @@ const signatures = ref<DigitalSignature[]>([]);
 
 const fetchSignatures = async () => {
   try {
-    const res = await DigitalSignatureService.getDigitalSignatures();
+    const res = await DigitalSignatureService.getAllDigitalSignatures();
     signatures.value = res.data;
   } catch (error) {
     console.error('Error al obtener firmas digitales:', error);

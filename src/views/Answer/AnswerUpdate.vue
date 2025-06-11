@@ -1,7 +1,7 @@
 <template>
   <Form :initial-object="initialAnswer" :fields="fields"
     :validator="(field, value) => AnswerValidator.validateField(field, value)" :service="answerService"
-    title="Crear Respuesta" />
+    title="Actualizar Respuesta" :id="answerId" />
 </template>
 
 <script setup lang="ts">
@@ -9,9 +9,13 @@ import Form from '../../components/Utils/Form.vue';
 import { AnswerValidator } from '../../utils/AnswerValidator';
 import AnswerService from '../../service/AnswerService';
 import type { Answer } from '../../models/Answer';
+import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
 
-const initialAnswer = {
+const route = useRoute();
+const answerId = Number(route.params.id);
+
+let initialAnswer = {
   content: '',
   user_id: '',
   security_question_id: ''
@@ -33,6 +37,7 @@ onMounted(async () => {
     const userResponse = await UserService.getUsers();
     users.value = userResponse.data;
 
+    // Cargar preguntas de seguridad
     const questionRes = await import('../../service/SecurityQuestionService');
     const SecurityQuestionService = questionRes.default || questionRes;
     const questionResponse = await SecurityQuestionService.getSecurityQuestions();
@@ -65,14 +70,7 @@ onMounted(async () => {
 });
 
 const answerService = {
-  create: (answer: any) => {
-    return AnswerService.createAnswer(
-      answer.user_id,
-      answer.security_question_id,
-      { content: answer.content }
-    );
-  },
-  get: (id: number | string) => AnswerService.getAnswer(Number(id)),
-  update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(Number(id), answer)
+  update: (id: number | string, answer: Answer) => AnswerService.updateAnswer(Number(id), answer),
+  get: (id: number | string) => AnswerService.getAnswer(Number(id))
 };
 </script>

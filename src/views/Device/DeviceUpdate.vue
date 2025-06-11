@@ -1,23 +1,29 @@
 <template>
   <Form
+    :id="deviceId"
     :initial-object="initialDevice"
     :fields="fields"
     :validator="validateDeviceField"
     :service="deviceService"
-    title="Crear Dispositivo"
+    title="Editar Dispositivo"
   />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import Form from '../../components/Utils/Form.vue';
 import { DeviceValidator } from '../../utils/DeviceValidators';
 import DeviceService from '../../service/DeviceService';
 import type { Device } from '../../models/Device';
 
+const route = useRoute();
+const deviceId = Number(route.params.id);
+
 const users = ref<any[]>([]);
 
-const initialDevice = ref({
+// Objeto editable
+const initialDevice = ref<any>({
   name: '',
   ip: '',
   operating_system: '',
@@ -33,11 +39,17 @@ const fields = ref([
 
 onMounted(async () => {
   try {
+    // Cargar usuarios para el select
     const userRes = await import('../../service/UserService');
     const UserService = userRes.default || userRes;
     const userResponse = await UserService.getUsers();
     users.value = userResponse.data;
 
+    // Cargar datos del dispositivo actual
+    const response = await DeviceService.getDevice(deviceId);
+    initialDevice.value = response.data;
+
+    // Asignar las opciones del select de usuarios
     fields.value = fields.value.map(field => {
       if (field.key === 'user_id') {
         return {
@@ -51,7 +63,7 @@ onMounted(async () => {
       return field;
     });
   } catch (error) {
-    console.error('Error cargando usuarios:', error);
+    console.error('Error al cargar los datos:', error);
   }
 });
 
@@ -70,25 +82,28 @@ const validateDeviceField = (field: string, value: any) => {
 
 const deviceService = {
   create: async (device: any) => {
-    try {
-      return await DeviceService.createDevice(
-        {
-          name: device.name,
-          ip: device.ip,
-          operating_system: device.operating_system
-        },
-        device.user_id
-      );
-    } catch (error) {
-      console.error('Error al crear el dispositivo:', error);
-      throw error;
-    }
+    return await DeviceService.createDevice(
+      {
+        name: device.name,
+        ip: device.ip,
+        operating_system: device.operating_system
+      },
+      device.user_id
+    );
   },
   get: async (id: number | string) => {
     return await DeviceService.getDevice(Number(id));
   },
-  update: async (id: number | string, device: Device) => {
-    return await DeviceService.updateDevice(Number(id), device);
+  update: async (id: number | string, device: any) => {
+    return await DeviceService.updateDevice(
+      Number(id),
+      {
+        name: device.name,
+        ip: device.ip,
+        operating_system: device.operating_system
+      },
+      device.user_id
+    );
   },
   delete: async (id: number | string) => {
     return await DeviceService.deleteDevice(Number(id));

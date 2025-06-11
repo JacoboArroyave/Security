@@ -1,32 +1,39 @@
 import axios from 'axios';
-import type { DigitalSignature } from '../models/DigitalSignature';
 
 const API_URL = import.meta.env.VITE_API_URL + "/api/digital-signatures"; //DEPRONTO CAMBIAR ENDOPOINT
 
-class DigitalSignatureService {
-    async getDigitalSignatures() {
-        const response = await axios.get<DigitalSignature[]>(API_URL);
-        return response;
-    }
+const DigitalSignatureService = {
+  async createDigitalSignature(formData: FormData, userId: number) {
+    return await axios.post(`${API_URL}/user/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 
-    async getDigitalSignature(id: number) {
-        const response = await axios.get<DigitalSignature>(`${API_URL}/${id}`);
-        return response;
-    }
+  async getAllDigitalSignatures() {
+    return await axios.get(API_URL);
+  },
 
-    async createDigitalSignature(signature: DigitalSignature) {
-        const response = await axios.post<DigitalSignature>(API_URL, signature);
-        return response;
-    }
+  async getDigitalSignatureById(id: number) {
+    return await axios.get(`${API_URL}/${id}`);
+  },
 
-    async updateDigitalSignature(id: number, signature: DigitalSignature) {
-        const response = await axios.put<DigitalSignature>(`${API_URL}/${id}`, signature);
-        return response;
-    }
+  async getDigitalSignatureByUserId(userId: number) {
+    return await axios.get(`${API_URL}/user/${userId}`);
+  },
 
-    async deleteDigitalSignature(id: number) {
-        await axios.delete(`${API_URL}/${id}`);
-    }
-}
+  async updateDigitalSignature(id: number, formData: FormData) {
+    return await axios.put(`${API_URL}/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 
-export default new DigitalSignatureService();
+  async deleteDigitalSignature(id: number) {
+    return await axios.delete(`${API_URL}/${id}`);
+  },
+};
+
+export default DigitalSignatureService;

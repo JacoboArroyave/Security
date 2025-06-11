@@ -3,9 +3,15 @@ import { z } from 'zod';
 
 export class AnswerValidator {
   private static schema = z.object({
-    response: z.string().min(1, 'La respuesta no puede estar vacía.'),
-    user_id: z.number({ invalid_type_error: 'El ID de usuario debe ser un número.' }).int().positive(),
-    security_question_id: z.number({ invalid_type_error: 'El ID de pregunta debe ser un número.' }).int().positive()
+    content: z.string().min(1, 'La respuesta no puede estar vacía.'),
+    user_id: z.union([
+      z.number().int().positive(),
+      z.string().min(1, 'Debe seleccionar un usuario.')
+    ]),
+    security_question_id: z.union([
+      z.number().int().positive(),
+      z.string().min(1, 'Debe seleccionar una pregunta de seguridad.')
+    ])
   });
 
   static validateField<K extends keyof Answer>(field: K, value: any) {
